@@ -24,19 +24,19 @@ public class BurgerTest {
     private Bun bun;
 
     @Mock
-    private Ingredient ingredient1;
+    private Ingredient sausceIngredient;
 
     @Mock
-    private Ingredient ingredient2;
+    private Ingredient fillingIngredient;
 
     private final float bunPrice;
-    private final float ingredient1Price;
-    private final float ingredient2Price;
+    private final float sauceIingredientPrice;
+    private final float fillingIngredientPrice;
 
-    public BurgerTest(float bunPrice, float ingredient1Price, float ingredient2Price) {
+    public BurgerTest(float bunPrice, float sauceIingredientPrice, float fillingIngredientPrice) {
         this.bunPrice = bunPrice;
-        this.ingredient1Price = ingredient1Price;
-        this.ingredient2Price = ingredient2Price;
+        this.sauceIingredientPrice = sauceIingredientPrice;
+        this.fillingIngredientPrice = fillingIngredientPrice;
     }
 
     @Parameterized.Parameters
@@ -64,37 +64,37 @@ public class BurgerTest {
 
     @Test
     public void testAddIngredient() {
-        burger.addIngredient(ingredient1);
+        burger.addIngredient(sausceIngredient);
         assertEquals(1, burger.ingredients.size());
-        assertEquals(ingredient1, burger.ingredients.get(0));
+        assertEquals(sausceIngredient, burger.ingredients.get(0));
     }
 
     @Test
     public void testRemoveIngredient() {
-        burger.addIngredient(ingredient1);
+        burger.addIngredient(sausceIngredient);
         burger.removeIngredient(0);
         assertEquals(0, burger.ingredients.size());
     }
 
     @Test
     public void testMoveIngredient() {
-        burger.addIngredient(ingredient1);
-        burger.addIngredient(ingredient2);
+        burger.addIngredient(sausceIngredient);
+        burger.addIngredient(fillingIngredient);
         burger.moveIngredient(0, 1);
-        assertEquals(ingredient2, burger.ingredients.get(0));
-        assertEquals(ingredient1, burger.ingredients.get(1));
+        assertEquals(fillingIngredient, burger.ingredients.get(0));
+        assertEquals(sausceIngredient, burger.ingredients.get(1));
     }
 
     @Test
     public void testGetPrice() {
         when(bun.getPrice()).thenReturn(bunPrice);
-        when(ingredient1.getPrice()).thenReturn(ingredient1Price);
-        when(ingredient2.getPrice()).thenReturn(ingredient2Price);
+        when(sausceIngredient.getPrice()).thenReturn(sauceIingredientPrice);
+        when(fillingIngredient.getPrice()).thenReturn(fillingIngredientPrice);
 
-        burger.addIngredient(ingredient1);
-        burger.addIngredient(ingredient2);
+        burger.addIngredient(sausceIngredient);
+        burger.addIngredient(fillingIngredient);
 
-        float expected = bunPrice * 2 + ingredient1Price + ingredient2Price;
+        float expected = bunPrice * 2 + sauceIingredientPrice + fillingIngredientPrice;
         assertEquals(expected, burger.getPrice(), 0.001);
     }
 
@@ -103,11 +103,11 @@ public class BurgerTest {
         when(bun.getName()).thenReturn("Black bun");
         when(bun.getPrice()).thenReturn(bunPrice);
 
-        when(ingredient1.getName()).thenReturn("Cheese");
-        when(ingredient1.getType()).thenReturn(IngredientType.FILLING);
-        when(ingredient1.getPrice()).thenReturn(ingredient1Price);
+        when(fillingIngredient.getName()).thenReturn("Cheese");
+        when(fillingIngredient.getType()).thenReturn(IngredientType.FILLING);
+        when(fillingIngredient.getPrice()).thenReturn(fillingIngredientPrice);
 
-        burger.addIngredient(ingredient1);
+        burger.addIngredient(fillingIngredient);
 
         String expectedReceipt = String.format("(==== Black bun ====)%n" +
             "= filling Cheese =%n" +
